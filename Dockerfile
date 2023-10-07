@@ -4,7 +4,7 @@ FROM alpine:3.18
 RUN apk update \
 	&& apk add --no-cache \
 	   coreutils \
-	   postgresql16-client \
+	   postgresql15-client \
 	   python3 py3-pip \
 	   openssl \
 	   curl \
