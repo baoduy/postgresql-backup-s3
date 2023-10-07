@@ -1,4 +1,4 @@
-apiVersion: batch/v1beta1
+apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: postgresqlbackups3
@@ -14,23 +14,27 @@ spec:
             imagePullPolicy: {{ .Values.image.pullPolicy }}
             env:
             - name: POSTGRES_DATABASE
-              value: {{ .Values.postgresql.database }}
+              value: {{ .Values.postgresql.database | quote }}
             - name: POSTGRES_HOST
-              value: {{ .Values.postgresql.host }}
+              value: {{ .Values.postgresql.host | quote }}
             - name: POSTGRES_PORT
-              value: {{ .Values.postgresql.port }}
+              value: {{ .Values.postgresql.port | quote }}
             - name: POSTGRES_PASSWORD
-              value: {{ .Values.postgresql.password }}
+              value: {{ .Values.postgresql.password | quote }}
             - name: POSTGRES_USER
-              value: {{ .Values.postgresql.user }}
+              value: {{ .Values.postgresql.user | quote }}
             - name: S3_ACCESS_KEY_ID
-              value: {{ .Values.s3.accessKeyId }}
+              value: {{ .Values.s3.accessKeyId | quote }}
             - name: S3_SECRET_ACCESS_KEY
-              value: {{ .Values.s3.secretAccessKey }}
+              value: {{ .Values.s3.secretAccessKey | quote }}
             - name: S3_BUCKET
-              value: {{ .Values.s3.bucket }}
+              value: {{ .Values.s3.bucket | quote }}
             - name: S3_ENDPOINT
-              value: {{ .Values.s3.endpoint }}
+              value: {{ .Values.s3.endpoint | quote }}
             - name: S3_PREFIX
-              value: {{ .Values.s3.prefix }}
+              value: {{ .Values.s3.prefix | quote }}
+            {{- if .Values.s3.region }}
+            - name: S3_REGION
+              value: {{ .Values.s3.region | quote }}
+            {{- end }}
           restartPolicy: OnFailure

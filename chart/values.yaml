@@ -18,4 +18,5 @@ s3:
   secretAccessKey: ""
   bucket: ""
   endpoint: ""
+  region: ""
   prefix: ""
