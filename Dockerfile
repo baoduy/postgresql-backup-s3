@@ -1,14 +1,17 @@
-FROM alpine:latest
-LABEL maintainer="ITBM"
+# Use a specific version of the Alpine image for reproducibility
+FROM alpine:3.18
 
 RUN apk update \
-	&& apk upgrade \
-	&& apk add coreutils \
-	&& apk add postgresql15-client \
-	&& apk add python3 py3-pip && pip3 install --upgrade pip && pip3 install awscli \
-	&& apk add openssl \
-	&& apk add curl \
-	&& curl -L --insecure https://github.com/odise/go-cron/releases/download/v0.0.6/go-cron-linux.gz | zcat > /usr/local/bin/go-cron && chmod u+x /usr/local/bin/go-cron \
+	&& apk add --no-cache \
+	   coreutils \
+	   postgresql16-client \
+	   python3 py3-pip \
+	   openssl \
+	   curl \
+	&& pip3 install --upgrade pip \
+	&& pip3 install awscli \
+	&& curl -L https://github.com/odise/go-cron/releases/download/v0.0.7/go-cron-linux.gz | zcat > /usr/local/bin/go-cron \
+	&& chmod u+x /usr/local/bin/go-cron \
 	&& apk del curl \
 	&& rm -rf /var/cache/apk/*
 
