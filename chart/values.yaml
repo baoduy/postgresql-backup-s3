@@ -1,0 +1,21 @@
+# values.yaml
+schedule: "0 0 * * *"
+
+image:
+  repository: registry.gitlab.com/svenkroll/postgresql-backup-s3
+  tag: master
+  pullPolicy: IfNotPresent
+
+postgresql:
+  database: ""
+  host: ""
+  port: ""
+  password: ""
+  user: ""
+
+s3:
+  accessKeyId: ""
+  secretAccessKey: ""
+  bucket: ""
+  endpoint: ""
+  prefix: ""

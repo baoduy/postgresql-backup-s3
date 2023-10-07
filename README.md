@@ -10,57 +10,7 @@ $ docker run -e S3_ACCESS_KEY_ID=key -e S3_SECRET_ACCESS_KEY=secret -e S3_BUCKET
 
 ## Kubernetes Deployment
 
-```
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: backup
-
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: postgresql
-  namespace: backup
-spec:
-  selector:
-    matchLabels:
-      app: postgresql
-  strategy:
-    type: Recreate
-  template:
-    metadata:
-      labels:
-        app: postgresql
-    spec:
-      containers:
-      - name: postgresql
-        image: itbm/postgresql-backup-s3
-        imagePullPolicy: Always
-        env:
-        - name: POSTGRES_DATABASE
-          value: ""
-        - name: POSTGRES_HOST
-          value: ""
-        - name: POSTGRES_PORT
-          value: ""
-        - name: POSTGRES_PASSWORD
-          value: ""
-        - name: POSTGRES_USER
-          value: ""
-        - name: S3_ACCESS_KEY_ID
-          value: ""
-        - name: S3_SECRET_ACCESS_KEY
-          value: ""
-        - name: S3_BUCKET
-          value: ""
-        - name: S3_ENDPOINT
-          value: ""
-        - name: S3_PREFIX
-          value: ""
-        - name: SCHEDULE
-          value: ""
-```
+see Helm chart in ./chart 
 
 ## Environment variables
 
@@ -79,15 +29,12 @@ spec:
 | S3_REGION            | us-west-1 |          | The AWS S3 bucket region                                                                                                 |
 | S3_ENDPOINT          |           |          | The AWS Endpoint URL, for S3 Compliant APIs such as [minio](https://minio.io)                                            |
 | S3_S3V4              | no        |          | Set to `yes` to enable AWS Signature Version 4, required for [minio](https://minio.io) servers                           |
-| SCHEDULE             |           |          | Backup schedule time, see explainatons below                                                                             |
 | ENCRYPTION_PASSWORD  |           |          | Password to encrypt the backup. Can be decrypted using `openssl aes-256-cbc -d -in backup.sql.gz.enc -out backup.sql.gz` |
 | DELETE_OLDER_THAN    |           |          | Delete old backups, see explanation and warning below                                                                    |
 
 ### Automatic Periodic Backups
 
-You can additionally set the `SCHEDULE` environment variable like `-e SCHEDULE="@daily"` to run the backup automatically.
-
-More information about the scheduling can be found [here](http://godoc.org/github.com/robfig/cron#hdr-Predefined_schedules).
+The helm chart in ./chart deploys an cronjob to your kubernetes cluster, just set the "schedule" value
 
 ### Delete Old Backups
 

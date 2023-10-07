@@ -7,12 +7,8 @@ RUN apk update \
 	   postgresql15-client \
 	   python3 py3-pip \
 	   openssl \
-	   curl \
 	&& pip3 install --upgrade pip \
 	&& pip3 install awscli \
-	&& curl -L https://github.com/odise/go-cron/releases/download/v0.0.7/go-cron-linux.gz | zcat > /usr/local/bin/go-cron \
-	&& chmod u+x /usr/local/bin/go-cron \
-	&& apk del curl \
 	&& rm -rf /var/cache/apk/*
 
 ENV POSTGRES_DATABASE **None**
@@ -28,7 +24,6 @@ ENV S3_REGION us-west-1
 ENV S3_PREFIX 'backup'
 ENV S3_ENDPOINT **None**
 ENV S3_S3V4 no
-ENV SCHEDULE **None**
 ENV ENCRYPTION_PASSWORD **None**
 ENV DELETE_OLDER_THAN **None**
 
