@@ -59,7 +59,7 @@ POSTGRES_HOST_OPTS="-h $POSTGRES_HOST -p $POSTGRES_PORT -U $POSTGRES_USER $POSTG
 
 # Create timestamp with UTC
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-SRC_FILE="dump.sql.gz"
+SRC_FILE="/tmp/dump.sql.gz"
 DEST_FILE="${POSTGRES_DATABASE}_${TIMESTAMP}.sql.gz"
 
 echo "Creating dump of ${POSTGRES_DATABASE} database from ${POSTGRES_HOST}..."
