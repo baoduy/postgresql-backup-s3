@@ -1,5 +1,5 @@
 const { S3Client, PutObjectCommand, ListObjectsV2Command, DeleteObjectCommand } = require('@aws-sdk/client-s3');
-const { createReadStream } = require('fs');
+const { createReadStream, statSync } = require('fs');
 const path = require('path');
 
 class StorageService {
@@ -32,14 +32,24 @@ class StorageService {
 
         console.log(`Uploading dump to ${this.config.bucket}/${destFile}`);
 
+        // Get file stats for Content-Length
+        const fileStats = statSync(filePath);
         const fileStream = createReadStream(filePath);
+
         const command = new PutObjectCommand({
             Bucket: this.config.bucket,
             Key: destFile,
-            Body: fileStream
+            Body: fileStream,
+            ContentLength: fileStats.size
         });
 
-        return this.client.send(command);
+        try {
+            await this.client.send(command);
+            console.log('Upload completed successfully');
+        } catch (error) {
+            console.error('Upload failed:', error.message);
+            throw error;
+        }
     }
 
     async cleanupOldBackups(days) {
