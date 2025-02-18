@@ -1,0 +1,19 @@
+name: Build-Docker
+
+on:
+  push:
+    branches:
+    - master
+    - main
+
+jobs:
+  docker_job:
+    uses: baoduy/ShareWorkflows/.github/workflows/docker-publish.yaml@main
+    with:
+      dockerFile: 'Dockerfile'
+      context: './'
+      imageName: 'baoduy2412/postgres-s3-backup'
+      platforms: linux/arm64,linux/amd64
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
