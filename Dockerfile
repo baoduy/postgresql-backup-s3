@@ -15,7 +15,7 @@ COPY package*.json ./
 RUN npm install
 
 # Copy application files
-COPY backup.js .
+COPY . .
 
 # Set environment variables
 ENV POSTGRES_DATABASE **None**

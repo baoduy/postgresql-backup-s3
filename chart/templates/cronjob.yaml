@@ -1,9 +1,9 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: postgresqlbackups3
+  name: {{ .Chart.Name }}
 spec:
-  schedule: "0 0 * * *" # This runs every minute; modify as needed
+  schedule: "0 0 * * *" # This runs every day at midnight
   jobTemplate:
     spec:
       template:
