@@ -34,5 +34,8 @@ ENV S3_S3V4 no
 ENV ENCRYPTION_PASSWORD **None**
 ENV DELETE_OLDER_THAN **None**
 
+# Switch to non-root user
+#USER backup
+
 # Run backup script
 CMD ["node", "backup.js"]

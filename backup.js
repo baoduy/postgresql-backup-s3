@@ -22,6 +22,7 @@ async function main() {
 
         let backupFile = await postgres.createBackup(config.backup.tempFile);
         backupFile = await encryption.encryptFile(backupFile);
+
         await storage.uploadFile(backupFile, config.postgres.database);
         await storage.cleanupOldBackups(config.backup.deleteOlderThan);
 
