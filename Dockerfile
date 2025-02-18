@@ -1,15 +1,18 @@
 # Use a specific version of the Alpine image for reproducibility
 FROM alpine:latest
 
-RUN apk update \
-	&& apk add --no-cache \
-	   coreutils \
-	   postgresql15-client \
+RUN apk update
+
+RUN apk add --no-cache \
+	coreutils \
+	postgresql17-client \
+	openssl
+
+RUN apk add --no-cache \
 	   python3 py3-pip \
-	   openssl \
-	&& pip3 install --upgrade pip \
-	&& pip3 install awscli \
-	&& rm -rf /var/cache/apk/*
+	   aws-cli
+
+RUN rm -rf /var/cache/apk/*
 
 ENV POSTGRES_DATABASE **None**
 ENV POSTGRES_HOST **None**
