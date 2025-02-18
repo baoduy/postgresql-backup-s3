@@ -1,0 +1,15 @@
+{
+  "name": "@drunk-pulumi/postgresql-backup-s3",
+  "version": "1.0.0",
+  "description": "Backup PostgresSQL to S3 (supports periodic backups)",
+  "main": "backup.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.750.0"
+  }
+}

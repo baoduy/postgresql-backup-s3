@@ -1,0 +1,90 @@
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    networks:
+      - backup_network
+    environment:
+      POSTGRES_DB: testdb
+      POSTGRES_USER: testuser
+      POSTGRES_PASSWORD: testpass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U testuser -d testdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  minio:
+    image: minio/minio
+    networks:
+      - backup_network
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    command: server --console-address ":9001" /data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  minio-init:
+    image: minio/mc
+    networks:
+      - backup_network
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c "
+      mc alias set myminio http://minio:9000 minioadmin minioadmin &&
+      mc mb myminio/backup-bucket --ignore-existing &&
+      exit 0;
+      "
+
+  backup:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - backup_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    volumes:
+      - backup_data:/tmp
+    environment:
+      POSTGRES_DATABASE: all
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: testuser
+      POSTGRES_PASSWORD: testpass
+      POSTGRES_EXTRA_OPTS: ""
+      S3_ACCESS_KEY_ID: minioadmin
+      S3_SECRET_ACCESS_KEY: minioadmin
+      S3_BUCKET: backup-bucket
+      S3_PREFIX: backup
+      S3_REGION: us-east-1
+      S3_ENDPOINT: http://minio:9000
+      S3_S3V4: "yes"
+      DELETE_OLDER_THAN: '7'
+
+volumes:
+  postgres_data:
+  minio_data:
+  backup_data:
+
+networks:
+  backup_network:
+    driver: bridge

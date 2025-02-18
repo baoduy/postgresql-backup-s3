@@ -1,19 +1,23 @@
-# Use a specific version of the Alpine image for reproducibility
-FROM alpine:latest
+FROM node:lts-alpine
 
-RUN apk update
-
+# Install required system dependencies
 RUN apk add --no-cache \
-	coreutils \
-	postgresql17-client \
-	openssl
+    postgresql15-client \
+    openssl
 
-RUN apk add --no-cache \
-	   python3 py3-pip \
-	   aws-cli
+# Set working directory
+WORKDIR /app
 
-RUN rm -rf /var/cache/apk/*
+# Copy package files
+COPY package*.json ./
 
+# Install dependencies
+RUN npm install
+
+# Copy application files
+COPY backup.js .
+
+# Set environment variables
 ENV POSTGRES_DATABASE **None**
 ENV POSTGRES_HOST **None**
 ENV POSTGRES_PORT 5432
@@ -23,14 +27,12 @@ ENV POSTGRES_EXTRA_OPTS ''
 ENV S3_ACCESS_KEY_ID **None**
 ENV S3_SECRET_ACCESS_KEY **None**
 ENV S3_BUCKET **None**
-ENV S3_REGION us-west-1
+ENV S3_REGION us-east-1
 ENV S3_PREFIX 'backup'
 ENV S3_ENDPOINT **None**
 ENV S3_S3V4 no
 ENV ENCRYPTION_PASSWORD **None**
 ENV DELETE_OLDER_THAN **None**
 
-ADD run.sh run.sh
-ADD backup.sh backup.sh
-
-CMD ["sh", "run.sh"]
+# Run backup script
+CMD ["node", "backup.js"]
