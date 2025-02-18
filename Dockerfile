@@ -1,5 +1,5 @@
 # Use a specific version of the Alpine image for reproducibility
-FROM alpine:3.18
+FROM alpine:latest
 
 RUN apk update \
 	&& apk add --no-cache \
