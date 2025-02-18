@@ -6,7 +6,7 @@ const { unlinkSync } = require('fs');
 
 function validateConfig() {
     for (const envVar of config.required.envVars) {
-        if (!process.env[envVar] || process.env[envVar] === '**None**') {
+        if (!process.env[envVar] || process.env[envVar].trim() === '') {
             throw new Error(`Missing required environment variable: ${envVar}`);
         }
     }

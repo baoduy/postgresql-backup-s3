@@ -7,7 +7,7 @@ class EncryptionService {
     }
 
     async encryptFile(inputFile) {
-        if (!this.config.encryptionPassword || this.config.encryptionPassword === '**None**') {
+        if (!this.config.encryptionPassword || this.config.encryptionPassword.trim() === '') {
             return inputFile;
         }
 

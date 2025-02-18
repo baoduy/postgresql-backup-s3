@@ -16,12 +16,12 @@ class StorageService {
                 secretAccessKey: process.env.S3_SECRET_ACCESS_KEY
             }
         };
-
-        if (this.config.endpoint && this.config.endpoint !== '**None**') {
+    
+        if (this.config.endpoint && this.config.endpoint.trim() !== '') {
             config.endpoint = this.config.endpoint;
             config.forcePathStyle = true;
         }
-
+    
         return new S3Client(config);
     }
 

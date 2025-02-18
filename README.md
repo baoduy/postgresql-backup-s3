@@ -28,7 +28,7 @@ see Helm chart in ./chart
 | S3_PREFIX            | backup    |          | Path prefix in your bucket                                                                                               |
 | S3_REGION            | us-west-1 |          | The AWS S3 bucket region                                                                                                 |
 | S3_ENDPOINT          |           |          | The AWS Endpoint URL, for S3 Compliant APIs such as [minio](https://minio.io)                                            |
-| S3_S3V4              | no        |          | Set to `yes` to enable AWS Signature Version 4, required for [minio](https://minio.io) servers                           |
+(https://minio.io) servers                           |
 | ENCRYPTION_PASSWORD  |           |          | Password to encrypt the backup. Can be decrypted using `openssl aes-256-cbc -d -in backup.sql.gz.enc -out backup.sql.gz` |
 | DELETE_OLDER_THAN    |           |          | Delete old backups, see explanation and warning below                                                                    |
 
