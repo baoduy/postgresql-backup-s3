@@ -1,4 +1,4 @@
-# [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/R6R8QT94J)  postgres-backup-s3
+# Postgres-backup-s3
 
 Backup PostgresSQL to S3 (supports periodic backups)
 
