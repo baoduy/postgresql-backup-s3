@@ -47,7 +47,7 @@ The helm chart in ./chart deploys an cronjob to your kubernetes cluster, just se
 
 ### Delete Old Backups
 
-You can additionally set the `DELETE_OLDER_THAN` environment variable like `-e DELETE_OLDER_THAN="30 days ago"` to delete old backups.
+You can additionally set the `DELETE_OLDER_THAN` environment variable like `-e DELETE_OLDER_THAN="30"` to delete old backups.
 
 WARNING: this will delete all files in the S3_PREFIX path, not just those created by this script.
 
