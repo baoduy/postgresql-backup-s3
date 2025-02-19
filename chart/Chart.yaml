@@ -1,4 +1,4 @@
 apiVersion: v2
 name: postgresql-backup-s3
 description: A Helm chart to backup a postgresql service
-version: 0.1.0
+version: 1.0.0

@@ -1,0 +1,39 @@
+---
+# Source: postgresql-backup-s3/templates/cronjob.yaml
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: postgresql-backup-s3
+spec:
+  schedule: "0 0 * * *" # This runs every day at midnight
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: postgresql-backup-s3
+            image: "baoduy2412/postgres-s3-backup:latest"
+            imagePullPolicy: IfNotPresent
+            env:
+            - name: POSTGRES_DATABASE
+              value: ""
+            - name: POSTGRES_HOST
+              value: ""
+            - name: POSTGRES_PORT
+              value: ""
+            - name: POSTGRES_PASSWORD
+              value: ""
+            - name: POSTGRES_USER
+              value: ""
+            - name: S3_ACCESS_KEY_ID
+              value: ""
+            - name: S3_SECRET_ACCESS_KEY
+              value: ""
+            - name: S3_BUCKET
+              value: ""
+            - name: S3_PREFIX
+              value: ""
+            - name: S3_REGION
+              value: ""
+
+          restartPolicy: OnFailure

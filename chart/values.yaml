@@ -2,8 +2,8 @@
 schedule: "0 0 * * *"
 
 image:
-  repository: registry.gitlab.com/svenkroll/postgresql-backup-s3
-  tag: master
+  repository: baoduy2412/postgres-s3-backup
+  tag: latest
   pullPolicy: IfNotPresent
 
 postgresql:
