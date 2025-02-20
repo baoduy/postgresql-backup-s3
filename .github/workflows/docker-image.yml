@@ -3,17 +3,42 @@ name: Build-Docker
 on:
   push:
     branches:
-    - master
-    - main
+      - master
+      - main
 
 jobs:
-  docker_job:
+  postgres_15:
     uses: baoduy/ShareWorkflows/.github/workflows/docker-publish.yaml@main
     with:
-      dockerFile: 'Dockerfile'
-      context: './'
-      imageName: 'baoduy2412/postgres-s3-backup'
+      dockerFile: "Dockerfile"
+      context: "./"
+      imageName: "baoduy2412/postgres-s3-backup-v15"
       platforms: linux/arm64,linux/amd64
+      buildArgs: POSTGRES_VERSION=15
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+
+  postgres_16:
+    uses: baoduy/ShareWorkflows/.github/workflows/docker-publish.yaml@main
+    with:
+      dockerFile: "Dockerfile"
+      context: "./"
+      imageName: "baoduy2412/postgres-s3-backup-v16"
+      platforms: linux/arm64,linux/amd64
+      buildArgs: POSTGRES_VERSION=16
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+
+  postgres_17:
+    uses: baoduy/ShareWorkflows/.github/workflows/docker-publish.yaml@main
+    with:
+      dockerFile: "Dockerfile"
+      context: "./"
+      imageName: "baoduy2412/postgres-s3-backup-v17"
+      platforms: linux/arm64,linux/amd64
+      buildArgs: POSTGRES_VERSION=17
     secrets:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}

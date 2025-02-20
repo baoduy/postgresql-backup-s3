@@ -1,7 +1,6 @@
-
 services:
   postgres:
-    image: postgres:15-alpine
+    image: postgres:17-alpine
     networks:
       - backup_network
     environment:
@@ -77,7 +76,7 @@ services:
       S3_PREFIX: backup
       S3_REGION: us-east-1
       S3_ENDPOINT: http://minio:9000
-      DELETE_OLDER_THAN: '7'
+      DELETE_OLDER_THAN: "7"
 
 volumes:
   postgres_data:

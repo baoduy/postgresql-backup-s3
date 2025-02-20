@@ -1,8 +1,9 @@
 FROM node:lts-alpine
+ARG POSTGRES_VERSION=17
 
 # Install required system dependencies
 RUN apk add --no-cache \
-    postgresql15-client \
+    postgresql${POSTGRES_VERSION}-client \
     openssl
 
 # Set working directory
