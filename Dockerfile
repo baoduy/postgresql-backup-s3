@@ -1,6 +1,9 @@
 FROM node:lts-alpine
 ARG POSTGRES_VERSION=17
 
+# Echo the PostgreSQL version
+RUN echo "Using PostgreSQL-Client version ${POSTGRES_VERSION}"
+
 # Install required system dependencies
 RUN apk add --no-cache \
     postgresql${POSTGRES_VERSION}-client \
