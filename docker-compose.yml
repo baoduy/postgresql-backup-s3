@@ -1,6 +1,7 @@
 services:
   postgres:
     image: postgres:17-alpine
+    read_only: true
     networks:
       - backup_network
     environment:
@@ -9,6 +10,9 @@ services:
       POSTGRES_PASSWORD: testpass
     ports:
       - "5432:5432"
+    tmpfs:
+      - /var/lib/postgresql/data
+      - /var/run/postgresql/
     # volumes:
     #   - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -19,11 +23,14 @@ services:
 
   minio:
     image: minio/minio
+    read_only: true
     networks:
       - backup_network
     ports:
       - "9000:9000"
       - "9001:9001"
+    tmpfs:
+      - /data
     # volumes:
     #   - minio_data:/data
     environment:
@@ -38,8 +45,11 @@ services:
 
   minio-init:
     image: minio/mc
+    read_only: true
     networks:
       - backup_network
+    tmpfs:
+      - /root/.mc
     depends_on:
       minio:
         condition: service_healthy
@@ -54,6 +64,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    read_only: true
     networks:
       - backup_network
     depends_on:
@@ -61,6 +72,8 @@ services:
         condition: service_healthy
       minio:
         condition: service_healthy
+    tmpfs:
+      - /tmp
     # volumes:
     #   - backup_data:/tmp
     environment:
