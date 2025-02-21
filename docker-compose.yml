@@ -9,8 +9,8 @@ services:
       POSTGRES_PASSWORD: testpass
     ports:
       - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+    # volumes:
+    #   - postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U testuser -d testdb"]
       interval: 10s
@@ -24,8 +24,8 @@ services:
     ports:
       - "9000:9000"
       - "9001:9001"
-    volumes:
-      - minio_data:/data
+    # volumes:
+    #   - minio_data:/data
     environment:
       MINIO_ROOT_USER: minioadmin
       MINIO_ROOT_PASSWORD: minioadmin
@@ -61,8 +61,8 @@ services:
         condition: service_healthy
       minio:
         condition: service_healthy
-    volumes:
-      - backup_data:/tmp
+    # volumes:
+    #   - backup_data:/tmp
     environment:
       POSTGRES_DATABASE: all
       POSTGRES_HOST: postgres
@@ -78,10 +78,10 @@ services:
       S3_ENDPOINT: http://minio:9000
       DELETE_OLDER_THAN: "7"
 
-volumes:
-  postgres_data:
-  minio_data:
-  backup_data:
+# volumes:
+#   postgres_data:
+#   minio_data:
+#   backup_data:
 
 networks:
   backup_network:
